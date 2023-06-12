@@ -15,22 +15,24 @@ export function Form() {
         />
         <InputTemplate id="cpf" type="text" content="CPF" />
         <InputTemplate id="cnh" type="text" content="CNH" />
-        <label htmlFor="disp">Disponibilidade</label>
-        <InputTemplate id="dia" type="checkbox" content="Dia" value="dia" />
-        <InputTemplate
-          id="tarde"
-          type="checkbox"
-          content="Tarde"
-          value="tarde"
-        />
-        <InputTemplate
-          id="noite"
-          type="checkbox"
-          content="Noite"
-          value="noite"
-        />
-        <button type="submit">Cadastrar</button>
+        <div className="checkbox">
+          <label htmlFor="disp">Disponibilidade</label>
+          <InputTemplate id="dia" type="checkbox" content="Dia" value="dia" />
+          <InputTemplate
+            id="tarde"
+            type="checkbox"
+            content="Tarde"
+            value="tarde"
+          />
+          <InputTemplate
+            id="noite"
+            type="checkbox"
+            content="Noite"
+            value="noite"
+          />
+        </div>
       </FormContent>
+      <button type="submit">Cadastrar</button>
     </FormContainer>
   )
 }
