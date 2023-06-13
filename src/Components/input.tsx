@@ -1,19 +1,22 @@
-import { RegisterOptions } from 'react-hook-form'
+import {
+  /* RegisterOptions, */ UseFormRegister,
+  FieldValues,
+} from 'react-hook-form'
 
 interface InputTemplateProps {
   id: string
   type: string
   content: string
-  register: (rules?: RegisterOptions) => void
+  value?: string
+  // register: (rules?: RegisterOptions) => {}
+  register: UseFormRegister<FieldValues>
 }
 export default function InputTemplate({
   id,
   type,
   content,
   register,
-  ...props
 }: InputTemplateProps) {
-  console.log(props)
   return (
     <div>
       <label htmlFor={id}>{content}</label>
