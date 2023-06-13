@@ -78,7 +78,8 @@ export const FormContent = styled.form`
   .checkbox {
     div {
       margin-bottom: 0;
-      gap: 0.4rem;
+      gap: 1rem;
+      justify-content: flex-end;
       input {
         width: 1rem;
         border-radius: 4px;

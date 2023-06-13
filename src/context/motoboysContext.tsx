@@ -15,6 +15,7 @@ interface MotoboysProps {
 }
 interface MotoboysContextType {
   motoboys: MotoboysProps[]
+  registerNewMotoboy: (data: MotoboysProps) => void
 }
 export const MotoboysContext = createContext({} as MotoboysContextType)
 export function MotoboysContextProvider({
@@ -28,9 +29,12 @@ export function MotoboysContextProvider({
   useEffect(() => {
     getMotoboys()
   }, [])
-
+  async function registerNewMotoboy(data: MotoboysProps): Promise<void> {
+    const response = await api.post('/motoboys', data)
+    setMotoboys([...motoboys, response.data])
+  }
   return (
-    <MotoboysContext.Provider value={{ motoboys }}>
+    <MotoboysContext.Provider value={{ motoboys, registerNewMotoboy }}>
       {children}
     </MotoboysContext.Provider>
   )
