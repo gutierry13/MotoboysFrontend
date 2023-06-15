@@ -1,4 +1,4 @@
-import { useContext } from 'react'
+import { useContext, useEffect } from 'react'
 import InputTemplate from '../../Components/input'
 import { FormContainer, FormContent } from './styles'
 import { MotoboysContext } from '../../context/motoboysContext'
@@ -16,7 +16,8 @@ interface MotoboysProps {
   disponibilidade: string
 }
 export function Form() {
-  const { registerNewMotoboy } = useContext(MotoboysContext)
+  const { registerNewMotoboy, selectedMotoboy, motoboys } =
+    useContext(MotoboysContext)
   const { register, handleSubmit, reset } = useForm()
   async function handleCreateNewMotoboy(data: MotoboysProps) {
     const newMotoboy = {
@@ -28,14 +29,32 @@ export function Form() {
       cnh: data.cnh,
       disponibilidade: `${data.dia ? 'Dia' : ''} / ${
         data.tarde ? 'Tarde' : ''
-      } / ${data.noite ? 'Noite' : ''}`,
+      }  ${data.noite ? 'Noite' : ''}`,
     }
     await registerNewMotoboy(newMotoboy)
     reset()
   }
+  function replaceMotoboyForEdit() {
+    const returnedMotoboyUsedForEdit = motoboys.filter((motoboy) => {
+      if (String(motoboy.codigo) === String(selectedMotoboy)) {
+        return reset({
+          ...motoboy,
+          dia: motoboy.disponibilidade.includes('Dia'),
+          tarde: motoboy.disponibilidade.includes('Tarde'),
+          noite: motoboy.disponibilidade.includes('Noite'),
+        })
+      }
+    })
+  }
+  useEffect(() => {
+    replaceMotoboyForEdit()
+  }, [selectedMotoboy])
   return (
     <FormContainer>
-      <FormContent id="form" onSubmit={handleSubmit(handleCreateNewMotoboy)}>
+      <FormContent
+        id="form"
+        onSubmit={handleSubmit(handleCreateNewMotoboy as any)}
+      >
         <InputTemplate
           id="nome"
           type="text"
@@ -88,7 +107,7 @@ export function Form() {
         </div>
       </FormContent>
       <button type="submit" form="form">
-        Cadastrar
+        {selectedMotoboy ? 'Editar' : 'Cadastrar'}
       </button>
     </FormContainer>
   )

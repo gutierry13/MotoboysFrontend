@@ -1,9 +1,19 @@
-import { useContext } from 'react'
+import { MouseEvent, useContext } from 'react'
 import { MotoboysContext } from '../../context/motoboysContext'
 import { TableContainer, TableContent } from './styles'
+import { PencilSimple, TrashSimple } from 'phosphor-react'
+import { useNavigate } from 'react-router-dom'
 
 export function Table() {
-  const { motoboys } = useContext(MotoboysContext)
+  const { motoboys, changeSelectedMotoboy } = useContext(MotoboysContext)
+  const navigate = useNavigate()
+  function handleSelectCustomer(event: MouseEvent) {
+    changeSelectedMotoboy(
+      (event.target as HTMLElement).parentElement?.parentElement?.children[0]
+        .innerText,
+    )
+    navigate('/')
+  }
   return (
     <TableContainer>
       <TableContent>
@@ -28,10 +38,28 @@ export function Table() {
                   <td>{motoboys.nome}</td>
                   <td>{motoboys.email}</td>
                   <td>{motoboys.telefone}</td>
-                  <td>{motoboys.dataNascimento}</td>
+                  <td>
+                    {
+                      // Format date
+                      new Date(motoboys.dataNascimento).toLocaleDateString(
+                        'pt-BR',
+                        {
+                          day: '2-digit',
+                          month: '2-digit',
+                          year: 'numeric',
+                        },
+                      )
+                    }
+                  </td>
                   <td>{motoboys.cpf}</td>
                   <td>{motoboys.cnh}</td>
                   <td>{motoboys.disponibilidade}</td>
+                  <td onClick={handleSelectCustomer}>
+                    <PencilSimple size={20} />
+                  </td>
+                  <td>
+                    <TrashSimple size={20} />
+                  </td>
                 </tr>
               )
             })}

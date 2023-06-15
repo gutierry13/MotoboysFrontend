@@ -4,6 +4,7 @@ interface MotoboysContextProviderProps {
   children: ReactNode
 }
 interface MotoboysProps {
+  codigo?: string
   nome: string
   email: string
   telefone: string
@@ -15,12 +16,18 @@ interface MotoboysProps {
 interface MotoboysContextType {
   motoboys: MotoboysProps[]
   registerNewMotoboy: (data: MotoboysProps) => void
+  selectedMotoboy: string
+  changeSelectedMotoboy: (motoboy: string) => void
 }
 export const MotoboysContext = createContext({} as MotoboysContextType)
 export function MotoboysContextProvider({
   children,
 }: MotoboysContextProviderProps) {
   const [motoboys, setMotoboys] = useState<MotoboysProps[]>([])
+  const [selectedMotoboy, setSelectedMotoboy] = useState('')
+  function changeSelectedMotoboy(motoboy: string) {
+    setSelectedMotoboy(motoboy)
+  }
   async function getMotoboys() {
     const response = await api.get('/motoboys')
     setMotoboys(response.data)
@@ -35,7 +42,14 @@ export function MotoboysContextProvider({
     getMotoboys()
   }
   return (
-    <MotoboysContext.Provider value={{ motoboys, registerNewMotoboy }}>
+    <MotoboysContext.Provider
+      value={{
+        motoboys,
+        registerNewMotoboy,
+        selectedMotoboy,
+        changeSelectedMotoboy,
+      }}
+    >
       {children}
     </MotoboysContext.Provider>
   )
