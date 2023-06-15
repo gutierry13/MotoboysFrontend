@@ -4,28 +4,40 @@ import { FormContainer, FormContent } from './styles'
 import { MotoboysContext } from '../../context/motoboysContext'
 import { useForm } from 'react-hook-form'
 interface MotoboysProps {
-  codigo: number
   nome: string
   email: string
   telefone: string
   dataNascimento: string
   cpf: string
   cnh: string
+  dia: boolean
+  tarde: boolean
+  noite: boolean
   disponibilidade: string
 }
 export function Form() {
-  // const { registerNewMotoboy } = useContext(MotoboysContext)
+  const { registerNewMotoboy } = useContext(MotoboysContext)
   const { register, handleSubmit, reset } = useForm()
   async function handleCreateNewMotoboy(data: MotoboysProps) {
-    console.log(data)
-    // registerNewMotoboy(data)
-    // reset()
+    const newMotoboy = {
+      nome: data.nome,
+      email: data.email,
+      telefone: data.telefone,
+      dataNascimento: data.dataNascimento,
+      cpf: data.cpf,
+      cnh: data.cnh,
+      disponibilidade: `${data.dia ? 'Dia' : ''} / ${
+        data.tarde ? 'Tarde' : ''
+      } / ${data.noite ? 'Noite' : ''}`,
+    }
+    await registerNewMotoboy(newMotoboy)
+    reset()
   }
   return (
     <FormContainer>
       <FormContent id="form" onSubmit={handleSubmit(handleCreateNewMotoboy)}>
         <InputTemplate
-          id="name"
+          id="nome"
           type="text"
           content="Nome"
           register={register}
@@ -43,7 +55,7 @@ export function Form() {
           register={register}
         />
         <InputTemplate
-          id="dtNascimento"
+          id="dataNascimento"
           type="date"
           content="Data de nascimento"
           register={register}

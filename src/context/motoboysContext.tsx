@@ -4,7 +4,6 @@ interface MotoboysContextProviderProps {
   children: ReactNode
 }
 interface MotoboysProps {
-  codigo: number
   nome: string
   email: string
   telefone: string
@@ -29,9 +28,11 @@ export function MotoboysContextProvider({
   useEffect(() => {
     getMotoboys()
   }, [])
-  async function registerNewMotoboy(data: MotoboysProps): Promise<void> {
-    const response = await api.post('/motoboys', data)
-    setMotoboys([...motoboys, response.data])
+  async function registerNewMotoboy(dataMotoboy: MotoboysProps): Promise<void> {
+    const response = await api.post('/motoboys', dataMotoboy)
+    const { data } = response.config
+    setMotoboys([...motoboys, JSON.parse(data)])
+    getMotoboys()
   }
   return (
     <MotoboysContext.Provider value={{ motoboys, registerNewMotoboy }}>
