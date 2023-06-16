@@ -19,6 +19,7 @@ interface MotoboysContextType {
   selectedMotoboy: string
   changeSelectedMotoboy: (motoboy: string) => void
   updateMotoboy: (data: MotoboysProps) => void
+  deleteMotoboy: (motoboyCode: string) => void
 }
 export const MotoboysContext = createContext({} as MotoboysContextType)
 export function MotoboysContextProvider({
@@ -54,6 +55,19 @@ export function MotoboysContextProvider({
       }),
     )
   }
+  async function deleteMotoboy(motoboyCode: string) {
+    await api
+      .delete('/motoboys', {
+        data: {
+          codigo: motoboyCode,
+        },
+      })
+      .then(() => {
+        setMotoboys(
+          motoboys.filter((motoboy) => motoboy.codigo !== motoboyCode),
+        )
+      })
+  }
   return (
     <MotoboysContext.Provider
       value={{
@@ -62,6 +76,7 @@ export function MotoboysContextProvider({
         selectedMotoboy,
         changeSelectedMotoboy,
         updateMotoboy,
+        deleteMotoboy,
       }}
     >
       {children}

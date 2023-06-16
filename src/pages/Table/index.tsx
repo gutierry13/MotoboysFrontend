@@ -5,7 +5,8 @@ import { PencilSimple, TrashSimple } from 'phosphor-react'
 import { useNavigate } from 'react-router-dom'
 
 export function Table() {
-  const { motoboys, changeSelectedMotoboy } = useContext(MotoboysContext)
+  const { motoboys, changeSelectedMotoboy, deleteMotoboy } =
+    useContext(MotoboysContext)
   const navigate = useNavigate()
   function handleSelectCustomer(event: MouseEvent) {
     changeSelectedMotoboy(
@@ -15,6 +16,16 @@ export function Table() {
       ).innerText,
     )
     navigate('/')
+  }
+  function handleDeleteMotoboy(event: MouseEvent) {
+    if (window.confirm('Gostaria de deletar o motoboy selecionado?')) {
+      const selectedMotoboyStringCode = (
+        (event.target as HTMLButtonElement).parentElement?.parentElement
+          ?.children[0] as HTMLElement
+      ).innerText
+
+      deleteMotoboy(selectedMotoboyStringCode)
+    }
   }
   return (
     <TableContainer>
@@ -60,7 +71,7 @@ export function Table() {
                     <PencilSimple size={20} onClick={handleSelectCustomer} />
                   </td>
                   <td className="button">
-                    <TrashSimple size={20} />
+                    <TrashSimple size={20} onClick={handleDeleteMotoboy} />
                   </td>
                 </tr>
               )
