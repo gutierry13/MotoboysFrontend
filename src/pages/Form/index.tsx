@@ -3,6 +3,8 @@ import InputTemplate from '../../Components/input'
 import { FormContainer, FormContent } from './styles'
 import { MotoboysContext } from '../../context/motoboysContext'
 import { useForm } from 'react-hook-form'
+import { useNavigate } from 'react-router-dom'
+
 interface MotoboysProps {
   nome: string
   email: string
@@ -16,8 +18,14 @@ interface MotoboysProps {
   disponibilidade: string
 }
 export function Form() {
-  const { registerNewMotoboy, selectedMotoboy, motoboys } =
-    useContext(MotoboysContext)
+  const {
+    registerNewMotoboy,
+    selectedMotoboy,
+    changeSelectedMotoboy,
+    motoboys,
+    updateMotoboy,
+  } = useContext(MotoboysContext)
+  const navigate = useNavigate()
   const { register, handleSubmit, reset } = useForm()
   async function handleCreateNewMotoboy(data: MotoboysProps) {
     const newMotoboy = {
@@ -35,16 +43,35 @@ export function Form() {
     reset()
   }
   function replaceMotoboyForEdit() {
-    const returnedMotoboyUsedForEdit = motoboys.filter((motoboy) => {
+    motoboys.forEach((motoboy) => {
       if (String(motoboy.codigo) === String(selectedMotoboy)) {
-        return reset({
+        reset({
           ...motoboy,
           dia: motoboy.disponibilidade.includes('Dia'),
           tarde: motoboy.disponibilidade.includes('Tarde'),
           noite: motoboy.disponibilidade.includes('Noite'),
         })
       }
+      // updateMotoboy(returnedMotoboyUsedForEdit)
     })
+    changeSelectedMotoboy('')
+  }
+  async function handleUpdateMotoboy(data: MotoboysProps) {
+    const newMotoboy = {
+      codigo: selectedMotoboy,
+      nome: data.nome,
+      email: data.email,
+      telefone: data.telefone,
+      dataNascimento: data.dataNascimento,
+      cpf: data.cpf,
+      cnh: data.cnh,
+      disponibilidade: `${data.dia ? 'Dia' : ''} / ${
+        data.tarde ? 'Tarde' : ''
+      }  ${data.noite ? 'Noite' : ''}`,
+    }
+    await updateMotoboy(newMotoboy)
+    navigate('/table')
+    reset()
   }
   useEffect(() => {
     replaceMotoboyForEdit()
@@ -53,7 +80,11 @@ export function Form() {
     <FormContainer>
       <FormContent
         id="form"
-        onSubmit={handleSubmit(handleCreateNewMotoboy as any)}
+        onSubmit={
+          selectedMotoboy
+            ? handleSubmit(handleUpdateMotoboy as any)
+            : handleSubmit(handleCreateNewMotoboy as any)
+        }
       >
         <InputTemplate
           id="nome"

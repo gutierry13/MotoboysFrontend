@@ -27,5 +27,9 @@ export const TableContent = styled.div`
       line-height: 1.6;
       border-top: 1px solid #551a8b;
     }
+    .button {
+      /* margin: 0; */
+      /* padding: 0; */
+    }
   }
 `

@@ -9,8 +9,10 @@ export function Table() {
   const navigate = useNavigate()
   function handleSelectCustomer(event: MouseEvent) {
     changeSelectedMotoboy(
-      (event.target as HTMLElement).parentElement?.parentElement?.children[0]
-        .innerText,
+      (
+        (event.target as HTMLButtonElement).parentElement?.parentElement
+          ?.children[0] as HTMLElement
+      ).innerText,
     )
     navigate('/')
   }
@@ -54,10 +56,10 @@ export function Table() {
                   <td>{motoboys.cpf}</td>
                   <td>{motoboys.cnh}</td>
                   <td>{motoboys.disponibilidade}</td>
-                  <td onClick={handleSelectCustomer}>
-                    <PencilSimple size={20} />
+                  <td className="button">
+                    <PencilSimple size={20} onClick={handleSelectCustomer} />
                   </td>
-                  <td>
+                  <td className="button">
                     <TrashSimple size={20} />
                   </td>
                 </tr>

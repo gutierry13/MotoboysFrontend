@@ -18,6 +18,7 @@ interface MotoboysContextType {
   registerNewMotoboy: (data: MotoboysProps) => void
   selectedMotoboy: string
   changeSelectedMotoboy: (motoboy: string) => void
+  updateMotoboy: (data: MotoboysProps) => void
 }
 export const MotoboysContext = createContext({} as MotoboysContextType)
 export function MotoboysContextProvider({
@@ -41,6 +42,18 @@ export function MotoboysContextProvider({
     setMotoboys([...motoboys, JSON.parse(data)])
     getMotoboys()
   }
+  async function updateMotoboy(dataMotoboy: MotoboysProps) {
+    const response = await api.put('/motoboys', dataMotoboy)
+    const { data } = response.config
+    setMotoboys(
+      motoboys.map((motoboy) => {
+        if (motoboy.codigo === dataMotoboy.codigo) {
+          return JSON.parse(data)
+        }
+        return motoboy
+      }),
+    )
+  }
   return (
     <MotoboysContext.Provider
       value={{
@@ -48,6 +61,7 @@ export function MotoboysContextProvider({
         registerNewMotoboy,
         selectedMotoboy,
         changeSelectedMotoboy,
+        updateMotoboy,
       }}
     >
       {children}
