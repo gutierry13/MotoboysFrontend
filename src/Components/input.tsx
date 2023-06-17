@@ -1,15 +1,10 @@
-import {
-  /* RegisterOptions, */ UseFormRegister,
-  FieldValues,
-} from 'react-hook-form'
-
+import { UseFormRegister } from 'react-hook-form'
 interface InputTemplateProps {
   id: string
   type: string
   content: string
   value?: string
-  // register: (rules?: RegisterOptions) => {}
-  register: UseFormRegister<FieldValues>
+  register: UseFormRegister<any>
   errorVariant?: string
   errorMessage?: string
 }

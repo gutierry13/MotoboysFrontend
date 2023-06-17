@@ -1,13 +1,14 @@
-import { MouseEvent, useContext } from 'react'
+import { ChangeEvent, MouseEvent, useContext, useState } from 'react'
 import { MotoboysContext } from '../../context/motoboysContext'
 import { TableContainer, TableContent } from './styles'
 import { PencilSimple, TrashSimple } from 'phosphor-react'
 import { useNavigate } from 'react-router-dom'
 
 export function Table() {
-  const { motoboys, changeSelectedMotoboy, deleteMotoboy } =
+  const { motoboys, changeSelectedMotoboy, deleteMotoboy, searchMotoboy } =
     useContext(MotoboysContext)
   const navigate = useNavigate()
+  const [search, setSearch] = useState('')
   function handleSelectCustomer(event: MouseEvent) {
     changeSelectedMotoboy(
       (
@@ -27,8 +28,24 @@ export function Table() {
       deleteMotoboy(selectedMotoboyStringCode)
     }
   }
+  function handleSearchMotoboy(event: ChangeEvent<HTMLInputElement>) {
+    if (event.target.value.length >= 0) {
+      searchMotoboy(event.target.value)
+      setSearch(event.target.value)
+    } else {
+      setSearch('')
+    }
+  }
   return (
     <TableContainer>
+      <input
+        type="text"
+        name="search"
+        id="search"
+        placeholder="Buscar por motoboys"
+        value={search}
+        onChange={handleSearchMotoboy}
+      />
       <TableContent>
         <table>
           <thead>
