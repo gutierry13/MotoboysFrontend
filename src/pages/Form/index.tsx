@@ -3,8 +3,9 @@ import InputTemplate from '../../Components/input'
 import { FormContainer, FormContent } from './styles'
 import { MotoboysContext } from '../../context/motoboysContext'
 import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
 import { useNavigate } from 'react-router-dom'
-
+import { z } from 'zod'
 interface MotoboysProps {
   nome: string
   email: string
@@ -12,21 +13,36 @@ interface MotoboysProps {
   dataNascimento: string
   cpf: string
   cnh: string
-  dia: boolean
-  tarde: boolean
-  noite: boolean
+  dia?: boolean
+  tarde?: boolean
+  noite?: boolean
   disponibilidade: string
 }
+const formSchema = z.object({
+  nome: z.string().min(3),
+  email: z.string().email(),
+  telefone: z.string().regex(/(\(\d{2}\)|\d{2}\s?)?(\d{5,9})-?(\d{4})?/g),
+  dataNascimento: z.string(),
+  cpf: z.string().regex(/[0-9]{3}[.-]?[0-9]{3}[.-]?[0-9]{3}[.-]?[0-9]{2}/g),
+  cnh: z.string(),
+  dia: z.boolean().optional(),
+  tarde: z.boolean().optional(),
+  noite: z.boolean().optional(),
+  disponibilidade: z.string().optional(),
+})
+type MotoboysPropsSchema = z.infer<typeof formSchema>
 export function Form() {
-  const {
-    registerNewMotoboy,
-    selectedMotoboy,
-    changeSelectedMotoboy,
-    motoboys,
-    updateMotoboy,
-  } = useContext(MotoboysContext)
+  const { registerNewMotoboy, selectedMotoboy, motoboys, updateMotoboy } =
+    useContext(MotoboysContext)
   const navigate = useNavigate()
-  const { register, handleSubmit, reset } = useForm()
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors, isValid },
+  } = useForm<MotoboysPropsSchema>({
+    resolver: zodResolver(formSchema),
+  })
   async function handleCreateNewMotoboy(data: MotoboysProps) {
     const newMotoboy = {
       nome: data.nome,
@@ -41,7 +57,9 @@ export function Form() {
     }
     await registerNewMotoboy(newMotoboy)
     reset()
+    navigate('/table')
   }
+  console.log(isValid)
   function replaceMotoboyForEdit() {
     motoboys.forEach((motoboy) => {
       if (String(motoboy.codigo) === String(selectedMotoboy)) {
@@ -52,9 +70,7 @@ export function Form() {
           noite: motoboy.disponibilidade.includes('Noite'),
         })
       }
-      // updateMotoboy(returnedMotoboyUsedForEdit)
     })
-    changeSelectedMotoboy('')
   }
   async function handleUpdateMotoboy(data: MotoboysProps) {
     const newMotoboy = {
@@ -91,27 +107,50 @@ export function Form() {
           type="text"
           content="Nome"
           register={register}
+          errorVariant={errors.nome ? 'error' : ''}
+          errorMessage={errors.nome ? 'Nome obrigatório!' : ''}
         />
         <InputTemplate
           id="email"
           type="email"
           content="Email"
           register={register}
+          errorVariant={errors.nome ? 'error' : ''}
+          errorMessage={errors.nome ? 'Email obrigatório!' : ''}
         />
         <InputTemplate
           id="telefone"
           type="tel"
           content="Telefone"
           register={register}
+          errorVariant={errors.nome ? 'error' : ''}
+          errorMessage={errors.nome ? 'Telefone obrigatório!' : ''}
         />
         <InputTemplate
           id="dataNascimento"
           type="date"
           content="Data de nascimento"
           register={register}
+          errorVariant={errors.nome ? 'error' : ''}
+          errorMessage={errors.nome ? 'Data de nascimento obrigatória!' : ''}
         />
-        <InputTemplate id="cpf" type="text" content="CPF" register={register} />
-        <InputTemplate id="cnh" type="text" content="CNH" register={register} />
+        <InputTemplate
+          id="cpf"
+          type="text"
+          content="CPF"
+          register={register}
+          errorVariant={errors.nome ? 'error' : ''}
+          errorMessage={errors.nome ? 'CPF obrigatório!' : ''}
+        />
+
+        <InputTemplate
+          id="cnh"
+          type="text"
+          content="CNH"
+          register={register}
+          errorVariant={errors.nome ? 'error' : ''}
+          errorMessage={errors.nome ? 'CNH obrigatório!' : ''}
+        />
         <div className="checkbox">
           <label htmlFor="disp">Disponibilidade</label>
           <InputTemplate
@@ -136,10 +175,10 @@ export function Form() {
             register={register}
           />
         </div>
+        <button type="submit" form="form">
+          {selectedMotoboy ? 'Editar' : 'Cadastrar'}
+        </button>
       </FormContent>
-      <button type="submit" form="form">
-        {selectedMotoboy ? 'Editar' : 'Cadastrar'}
-      </button>
     </FormContainer>
   )
 }
