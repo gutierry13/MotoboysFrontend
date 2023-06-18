@@ -85,10 +85,18 @@ export function Table() {
                   <td>{motoboys.cnh}</td>
                   <td>{motoboys.disponibilidade}</td>
                   <td className="button">
-                    <PencilSimple size={20} onClick={handleSelectCustomer} />
+                    <PencilSimple
+                      size={20}
+                      onClick={handleSelectCustomer}
+                      color="#7f7e41"
+                    />
                   </td>
                   <td className="button">
-                    <TrashSimple size={20} onClick={handleDeleteMotoboy} />
+                    <TrashSimple
+                      size={20}
+                      onClick={handleDeleteMotoboy}
+                      color="#b04545"
+                    />
                   </td>
                 </tr>
               )

@@ -10,11 +10,11 @@ export function Header() {
   }
   return (
     <HeaderContainer>
-      <h1>Header</h1>
-      <NavLink to="/" title="Registrar">
+      <NavLink to="/" title="Registrar motoboys">
         <Pen size={32} />
       </NavLink>
-      <NavLink to="/table" title="Tabela">
+      <h1>Motoboys</h1>
+      <NavLink to="/table" title="Tabela de motoboys cadastrados">
         <DeviceTabletSpeaker onClick={handleClearForm} size={32} />
       </NavLink>
     </HeaderContainer>

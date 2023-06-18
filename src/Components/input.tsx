@@ -8,6 +8,7 @@ interface InputTemplateProps {
   errorVariant?: string
   errorMessage?: string
 }
+
 export default function InputTemplate({
   id,
   type,
@@ -23,7 +24,7 @@ export default function InputTemplate({
         type={type}
         id={id}
         {...register(id)}
-        style={errorVariant ? { borderColor: 'red' } : { borderColor: 'white' }}
+        style={errorVariant ? { borderColor: 'red' } : undefined}
       />
       <span>{errorMessage}</span>
     </div>

@@ -8,7 +8,7 @@ export const GlobalStyle = createGlobalStyle`
   outline: 0;
 }
 body{
-  background: #312e38;
+  background: #202024;
   color: #FFF;
   -webkit-font-smoothing: antialiased;
 }
@@ -17,4 +17,11 @@ body,text-area,input,button{
   font-size: 16px;
   font-weight: 400;
 }
+input{
+  &:focus{
+    box-shadow: none;
+    border-color: #551a8b;
+  }
+}
+
 `

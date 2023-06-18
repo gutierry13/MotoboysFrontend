@@ -2,9 +2,20 @@ import { styled } from 'styled-components'
 
 export const TableContainer = styled.section`
   flex: 1;
-  padding: 3.5rem;
+  /* padding: 3.5rem; */
   display: flex;
   flex-direction: column;
+  width: 100%;
+  margin-top: 5rem;
+  input {
+    width: 28rem;
+    background-color: transparent;
+    border: 0;
+    border-bottom: 1px solid #d7d7d7;
+    margin: 0 auto;
+    padding: 0.4rem 0.8rem;
+    color: white;
+  }
 `
 export const TableContent = styled.div`
   flex: 1;

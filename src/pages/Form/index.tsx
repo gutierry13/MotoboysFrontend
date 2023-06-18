@@ -175,10 +175,10 @@ export function Form() {
             register={register}
           />
         </div>
-        <button type="submit" form="form">
-          {selectedMotoboy ? 'Editar' : 'Cadastrar'}
-        </button>
       </FormContent>
+      <button type="submit" form="form">
+        {selectedMotoboy ? 'Editar' : 'Cadastrar'}
+      </button>
     </FormContainer>
   )
 }

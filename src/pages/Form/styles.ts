@@ -5,9 +5,10 @@ export const FormContainer = styled.section`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 100%;
-  max-width: 1080px;
-  height: 100vh;
+  margin-top: 5rem;
+  /* width: 100%;
+  max-width: 1080px; */
+  height: 100%;
   button {
     width: 18rem;
     padding: 0.5rem 1rem;
@@ -15,6 +16,7 @@ export const FormContainer = styled.section`
     border: none;
     outline: none;
     font-weight: bold;
+    margin-top: 3rem;
     font-size: 1.2rem;
     cursor: pointer;
     background-color: #551a8b;
@@ -61,18 +63,15 @@ export const FormContent = styled.form`
     input[type='date'],
     input[type='email'] {
       background-color: #202024;
-      border: none;
-      border-bottom: 1px solid #ccc;
       color: #fff;
       width: 100%;
       height: 2rem;
-      border-radius: 3px;
       padding: 0.5rem;
       line-height: 1.25;
       font-size: 1rem;
-      &:focus {
-        border-bottom: 1px solid #551a8b;
-      }
+      border: 0;
+      border-bottom: 1px solid #d7d7d7;
+      border-radius: 3px;
     }
   }
   .checkbox {
