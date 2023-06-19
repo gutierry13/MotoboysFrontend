@@ -2,11 +2,16 @@ import { styled } from 'styled-components'
 
 export const TableContainer = styled.section`
   flex: 1;
-  /* padding: 3.5rem; */
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
   width: 100%;
-  margin-top: 5rem;
+  margin-top: 3.6rem;
+  h1 {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+  }
   input {
     width: 28rem;
     background-color: transparent;
@@ -39,8 +44,9 @@ export const TableContent = styled.div`
       border-top: 1px solid #551a8b;
     }
     .button {
-      /* margin: 0; */
-      /* padding: 0; */
+      svg {
+        cursor: pointer;
+      }
     }
   }
 `

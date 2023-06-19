@@ -7,6 +7,7 @@ interface InputTemplateProps {
   register: UseFormRegister<any>
   errorVariant?: string
   errorMessage?: string
+  disabled?: boolean
 }
 
 export default function InputTemplate({
@@ -16,6 +17,7 @@ export default function InputTemplate({
   register,
   errorMessage,
   errorVariant,
+  ...props
 }: InputTemplateProps) {
   return (
     <div>
@@ -25,6 +27,7 @@ export default function InputTemplate({
         id={id}
         {...register(id)}
         style={errorVariant ? { borderColor: 'red' } : undefined}
+        disabled={props.disabled}
       />
       <span>{errorMessage}</span>
     </div>

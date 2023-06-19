@@ -5,10 +5,15 @@ export const FormContainer = styled.section`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin-top: 5rem;
+  margin-top: 3rem;
+
   /* width: 100%;
   max-width: 1080px; */
   height: 100%;
+  h1 {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+  }
   button {
     width: 18rem;
     padding: 0.5rem 1rem;
@@ -52,7 +57,7 @@ export const FormContent = styled.form`
         content: '';
         position: absolute;
         bottom: 0;
-        left: -1.5rem;
+        left: -0.5rem;
         width: 2rem;
         height: 2px;
         background-color: #551a8b;
@@ -72,6 +77,10 @@ export const FormContent = styled.form`
       border: 0;
       border-bottom: 1px solid #d7d7d7;
       border-radius: 3px;
+      &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
     }
   }
   .checkbox {

@@ -6,6 +6,7 @@ export const HeaderContainer = styled.header`
   justify-content: space-around;
   width: 100%;
   padding: 1rem;
+  border-bottom: 3px solid #551a8b;
   a {
     color: #fff;
     border-bottom: 3px solid transparent;

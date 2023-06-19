@@ -22,9 +22,9 @@ const formSchema = z.object({
   nome: z.string().min(3),
   email: z.string().email(),
   telefone: z.string().regex(/(\(\d{2}\)|\d{2}\s?)?(\d{5,9})-?(\d{4})?/g),
-  dataNascimento: z.string(),
+  dataNascimento: z.string().min(8),
   cpf: z.string().regex(/[0-9]{3}[.-]?[0-9]{3}[.-]?[0-9]{3}[.-]?[0-9]{2}/g),
-  cnh: z.string(),
+  cnh: z.string().regex(/[0-9]{3}[.-]?[0-9]{3}[.-]?[0-9]{3}[.-]?[0-9]{2}/g),
   dia: z.boolean().optional(),
   tarde: z.boolean().optional(),
   noite: z.boolean().optional(),
@@ -39,7 +39,7 @@ export function Form() {
     register,
     handleSubmit,
     reset,
-    formState: { errors, isValid },
+    formState: { errors },
   } = useForm<MotoboysPropsSchema>({
     resolver: zodResolver(formSchema),
   })
@@ -59,7 +59,6 @@ export function Form() {
     reset()
     navigate('/table')
   }
-  console.log(isValid)
   function replaceMotoboyForEdit() {
     motoboys.forEach((motoboy) => {
       if (String(motoboy.codigo) === String(selectedMotoboy)) {
@@ -72,6 +71,7 @@ export function Form() {
       }
     })
   }
+  console.log(errors)
   async function handleUpdateMotoboy(data: MotoboysProps) {
     const newMotoboy = {
       codigo: selectedMotoboy,
@@ -83,7 +83,7 @@ export function Form() {
       cnh: data.cnh,
       disponibilidade: `${data.dia ? 'Dia' : ''} / ${
         data.tarde ? 'Tarde' : ''
-      }  ${data.noite ? 'Noite' : ''}`,
+      } / ${data.noite ? 'Noite' : ''}`,
     }
     await updateMotoboy(newMotoboy)
     navigate('/table')
@@ -94,6 +94,7 @@ export function Form() {
   }, [selectedMotoboy])
   return (
     <FormContainer>
+      <h1>Cadastro de motoboys</h1>
       <FormContent
         id="form"
         onSubmit={
@@ -115,32 +116,35 @@ export function Form() {
           type="email"
           content="Email"
           register={register}
-          errorVariant={errors.nome ? 'error' : ''}
-          errorMessage={errors.nome ? 'Email obrigatório!' : ''}
+          errorVariant={errors.email ? 'error' : ''}
+          errorMessage={errors.email ? 'Email obrigatório!' : ''}
         />
         <InputTemplate
           id="telefone"
           type="tel"
           content="Telefone"
           register={register}
-          errorVariant={errors.nome ? 'error' : ''}
-          errorMessage={errors.nome ? 'Telefone obrigatório!' : ''}
+          errorVariant={errors.telefone ? 'error' : ''}
+          errorMessage={errors.telefone ? 'Telefone obrigatório!' : ''}
         />
         <InputTemplate
           id="dataNascimento"
           type="date"
           content="Data de nascimento"
           register={register}
-          errorVariant={errors.nome ? 'error' : ''}
-          errorMessage={errors.nome ? 'Data de nascimento obrigatória!' : ''}
+          errorVariant={errors.dataNascimento ? 'error' : ''}
+          errorMessage={
+            errors.dataNascimento ? 'Data de nascimento obrigatória!' : ''
+          }
         />
         <InputTemplate
           id="cpf"
           type="text"
           content="CPF"
           register={register}
-          errorVariant={errors.nome ? 'error' : ''}
-          errorMessage={errors.nome ? 'CPF obrigatório!' : ''}
+          errorVariant={errors.cpf ? 'error' : ''}
+          errorMessage={errors.cpf ? 'CPF obrigatório!' : ''}
+          disabled={!!selectedMotoboy}
         />
 
         <InputTemplate
@@ -148,8 +152,8 @@ export function Form() {
           type="text"
           content="CNH"
           register={register}
-          errorVariant={errors.nome ? 'error' : ''}
-          errorMessage={errors.nome ? 'CNH obrigatório!' : ''}
+          errorVariant={errors.cnh ? 'error' : ''}
+          errorMessage={errors.cnh ? 'CNH obrigatório!' : ''}
         />
         <div className="checkbox">
           <label htmlFor="disp">Disponibilidade</label>

@@ -38,6 +38,7 @@ export function Table() {
   }
   return (
     <TableContainer>
+      <h1>Tabela de motoboys</h1>
       <input
         type="text"
         name="search"
